@@ -1,4 +1,5 @@
 
+import javax.xml.crypto.Data;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.function.Consumer;
 public class KMeansAlgorithm {
     private Centroid[] centroids;
     private List<DataPoint> dataPoints;
+    private int numCoords;
 
     //default values
     private boolean verbose = false;
@@ -48,6 +50,13 @@ public class KMeansAlgorithm {
     public KMeansAlgorithm(List<DataPoint> dataPoints) {
         if (dataPoints.size() <= 1) {
             throw new IllegalArgumentException("List of data points must be larger than 1");
+        }
+        numCoords = dataPoints.get(0).getCoords().length;
+        for (int i = 1; i < dataPoints.size(); i++) {
+            DataPoint dataPoint = dataPoints.get(i);
+            if (dataPoint.getCoords().length != numCoords){
+                throw new IllegalArgumentException("All data points must have the same number of coordinates.");
+            }
         }
         this.dataPoints = dataPoints;
     }
@@ -104,47 +113,40 @@ public class KMeansAlgorithm {
     }
 
     private void initialCentroidsRandomCoord(int k) {
-        /*Random rnd = new Random();
         centroids = new Centroid[k];
-        //TODO: Optimize this method
-        Integer[][] dataPointRanges = null;
-        if (dataPoints == null) {
-            int numCoords = dataPoints.get(0).getCoords().length;
-            dataPointRanges = new Integer[2][numCoords];
-            Integer[] minCoords = new Integer[numCoords];
-            for (int i = 0; i < numCoords; i++) {
-                minCoords[i] = dataPoints.get(0).getCoords()[i];
-            }
-            for (DataPoint dataPoint : dataPoints) {
-                int[] coords = dataPoint.getCoords();
-                for (int i = 0; i < numCoords; i++) {
-                    int coord = coords[i];
-                    if (coord < minCoords[i]){
-                        minCoords[i] = coord;
-                    }
-                }
-            }
 
-            Integer[] maxCoords = new Integer[numCoords];
-            for (int i = 0; i < numCoords; i++) {
-                minCoords[i] = dataPoints.get(0).getCoords()[i];
-            }
-            for (DataPoint dataPoint : dataPoints) {
-                int[] coords = dataPoint.getCoords();
-                for (int i = 0; i < numCoords; i++) {
-                    int coord = coords[i];
-                    if (coord > minCoords[i]){
-                        maxCoords[i] = coord;
-                    }
+        int[] maxCoords = new int[numCoords];
+        int[] minCoords = new int[numCoords];
+        System.arraycopy(dataPoints.get(0).getCoords(), 0, maxCoords, 0, numCoords);
+        System.arraycopy(dataPoints.get(0).getCoords(), 0, minCoords, 0, numCoords);
+
+        for (int i = 1; i < dataPoints.size(); i++) {
+            int[] coords = dataPoints.get(i).getCoords();
+            for (int coordIndex = 0; coordIndex < numCoords; coordIndex++) {
+                if (maxCoords[coordIndex] < coords[coordIndex]){
+                    maxCoords[coordIndex] = coords[coordIndex];
+                }
+                if (minCoords[coordIndex] > coords[coordIndex]){
+                    minCoords[coordIndex] = coords[coordIndex];
                 }
             }
-            dataPointRanges = new Integer[][] {minCoords, maxCoords};
         }
-        for (int i = 0; i < centroids.length; i++) {
-            centroids[i] = new Centroid(new DataPoint(
 
-            ));
-        }*/
+        Random rnd = new Random();
+        for (int i = 0; i < centroids.length; i++) {
+            int[] coords = new int[numCoords];
+            for (int coordIndex = 0; coordIndex < numCoords; coordIndex++) {
+                coords[coordIndex] =
+                        rnd.nextInt(
+                                //+1 so upper limit is inclusive
+                                maxCoords[coordIndex] + 1 - minCoords[coordIndex]
+                        )
+                        + minCoords[coordIndex];
+            }
+            centroids[i] = new Centroid(
+                    new DataPoint(coords)
+            );
+        }
     }
 
     public void assignDataPointsToCentroid() {
