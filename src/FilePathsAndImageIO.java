@@ -26,12 +26,13 @@ public class FilePathsAndImageIO {
     }
 
     protected static String validateOutputPath(String outputPathString, String inputPath, int k) throws IOException {
+        File inputFile = new File(inputPath);
         if (outputPathString == null) {
-            return createOutputPath(inputPath, k);
+            return createOutputPath(inputFile.getCanonicalPath(), k);
         }
         File outputPath = new File(outputPathString);
         if (outputPath.isDirectory()) {
-            File outputPathFile = new File(outputPath, createOutputPath(inputPath, k));
+            File outputPathFile = new File(outputPath, createOutputPath(inputFile.getName(), k));
             return outputPathFile.getCanonicalPath();
         }
         return outputPath.getCanonicalPath();

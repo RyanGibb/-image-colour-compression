@@ -15,29 +15,33 @@ public class KMeansAlgorithm {
 
     public KMeansAlgorithm(List<DataPoint> dataPoints, Map<String, String> properties) {
         this(dataPoints);
-        switch (properties.get("verbose")) {
-            case "true":
-                verbose = true;
-                break;
-            case "false":
-                verbose = false;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid \"verbose\" value. Must be \"true\" or \"false\".");
+        if (properties.containsKey("verbose")) {
+            switch (properties.get("verbose")) {
+                case "true":
+                    verbose = true;
+                    break;
+                case "false":
+                    verbose = false;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid \"verbose\" value. Must be \"true\" or \"false\".");
+            }
         }
-        switch (properties.get("initialization")) {
-            case "k++":
-                initialCentroidsMethod = this::initialCentroidsKPlusPlus;
-                break;
-            case "random coordinate":
-                initialCentroidsMethod = this::initialCentroidsRandomCoord;
-                break;
-            case "random data point":
-                initialCentroidsMethod = this::initialCentroidsRandomDataPoints;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid \"initialization\" value. " +
-                        "Must be \"k++\", \"random coordinate\", or \"random data point\".");
+        if (properties.containsKey("initialization")) {
+            switch (properties.get("initialization")) {
+                case "k++":
+                    initialCentroidsMethod = this::initialCentroidsKPlusPlus;
+                    break;
+                case "random coordinate":
+                    initialCentroidsMethod = this::initialCentroidsRandomCoord;
+                    break;
+                case "random data point":
+                    initialCentroidsMethod = this::initialCentroidsRandomDataPoints;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid \"initialization\" value. " +
+                            "Must be \"k++\", \"random coordinate\", or \"random data point\".");
+            }
         }
     }
 

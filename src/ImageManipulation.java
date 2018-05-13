@@ -21,7 +21,7 @@ public class ImageManipulation {
             progressImage = true;
             int iterations = 0;
             try {
-                iterations = Integer.parseInt(properties.get("progress image"));
+                iterations = Integer.parseInt(properties.get("progress-image"));
                 if (iterations <= 0){
                     System.out.println("progress-image's value must be positive. No progress images will be output.");
                     progressImage = false;

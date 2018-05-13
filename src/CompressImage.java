@@ -10,7 +10,7 @@ public class CompressImage {
             "-i, --initialization METHOD: specifies centroid initialization METHOD in the k-means clustering algorithm, where the METHOD is one of:\n" +
                "\t\"k++\"\n" +
                "\t\"random coordinate\"\n" +
-               "\t\"random data point (default)\"\n" +
+               "\t\"random data point\" (default)\n" +
             "-v, --verbose: makes the K Means Algorithm verbose, and output progress information.\n" +
             "-p, --progress-image N: outputs an image every N iterations of the k-means clustering algorithm, where N is a positive integer\n" +
             "EXAMPLE: java CompressImage -i \"random data point\" -v --progress-image 10 image-to-compress.jpg 8";
@@ -53,7 +53,7 @@ public class CompressImage {
             return;
         }
         String outputPath = null;
-        if (programOperands.size() > 3){
+        if (programOperands.size() > 2){
             outputPath = programOperands.get(2);
         }
 
@@ -65,9 +65,11 @@ public class CompressImage {
         }
 
         System.out.println("Input Path: " + inputPath + "\tK-Means: " + k + "\tOutput Path: " + outputPath);
-        System.out.println("Properties:");
-        for (Map.Entry<String, String> property : properties.entrySet()){
-            System.out.println("\t" + property.getKey() + ":\t" + property.getValue());
+        if (properties.size() > 0) {
+            System.out.println("Properties:");
+            for (Map.Entry<String, String> property : properties.entrySet()) {
+                System.out.println("\t" + property.getKey() + ":\t" + property.getValue());
+            }
         }
 
         ImageManipulation.compressImageToKColors(inputPath, outputPath, k, properties);
