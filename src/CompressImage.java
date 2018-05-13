@@ -8,7 +8,6 @@ public class CompressImage {
     public static final String USAGE = "java CompressImage (options) <image input path> <No. colors> (output image path/directory)";
     public static final String OPTIONS = "-h, --help: gives info on usage and options\n" +
             "-i, --initialization METHOD: specifies centroid initialization METHOD in the k-means clustering algorithm, where the METHOD is one of:\n" +
-               "\t\"k++\"\n" +
                "\t\"random coordinate\"\n" +
                "\t\"random data point\" (default)\n" +
             "-v, --verbose: makes the K Means Algorithm verbose, and output progress information.\n" +

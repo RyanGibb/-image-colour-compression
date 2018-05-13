@@ -32,9 +32,6 @@ public class KMeansAlgorithm {
         }
         if (properties.containsKey("initialization")) {
             switch (properties.get("initialization")) {
-                case "k++":
-                    initialCentroidsMethod = this::initialCentroidsKPlusPlus;
-                    break;
                 case "random coordinate":
                     initialCentroidsMethod = this::initialCentroidsRandomCoord;
                     break;
@@ -100,36 +97,6 @@ public class KMeansAlgorithm {
         centroids = new Centroid[k];
         for (int i = 0; i < centroids.length; i++) {
             centroids[i] = new Centroid(dataPoints.get(rnd.nextInt(dataPoints.size())));
-        }
-    }
-
-    //TODO: implement k++ initial centroids
-    //See https://en.wikipedia.org/wiki/K-means%2B%2B
-    //https://stackoverflow.com/questions/9330394/how-to-pick-an-item-by-its-probability
-    private void initialCentroidsKPlusPlus(int k) {
-        Random rnd = new Random();
-        centroids = new Centroid[k];
-        centroids[0] = new Centroid(dataPoints.get(rnd.nextInt(dataPoints.size())));
-
-
-        for (int i = 1; i < centroids.length; i++) {
-            double sumDistances = 0;
-            double[] distances = new double[dataPoints.size()];
-            for (int j = 0; j < dataPoints.size(); j++) {
-                DataPoint dataPoint = dataPoints.get(j);
-                double minDistance = dataPoint.distance(centroids[0].getCentre());
-                for (int l = 0; l < i+1; l++) {
-                    Centroid centroid = centroids[l];
-                    double distance = dataPoint.distance(centroid.getCentre());
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                    }
-                }
-                sumDistances += minDistance;
-                distances[j] = minDistance;
-            }
-
-
         }
     }
 
