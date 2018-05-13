@@ -12,8 +12,8 @@ public class CompressImage {
                "\t\"random coordinate\"\n" +
                "\t\"random data point\" (default)\n" +
             "-v, --verbose: makes the K Means Algorithm verbose, and output progress information.\n" +
-            "-o, --intermediate-images N: outputs an image every N iterations of the k-means clustering algorithm, where N is a positive integer\n" +
-            "EXAMPLE: java CompressImage -i \"random data point\" -v --intermediate-images 10 image-to-compress.jpg 8";
+            "-o, --intermediate-images: outputs an image every iteration of the k-means clustering algorithm.\n" +
+            "EXAMPLE: java CompressImage -i \"random data point\" -v --intermediate-images image-to-compress.jpg 8";
     public static final String DEFAULT_FILE_FORMAT = "jpg";
 
     public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class CompressImage {
                 properties.put("verbose", "true");
             }
             else if (args[i].equals("-o") || args[i].equals("--intermediate-images")){
-                properties.put("intermediate-images", args[++i]);
+                properties.put("intermediate-images", "true");
             }
             else{
                 programOperands.add(args[i]);

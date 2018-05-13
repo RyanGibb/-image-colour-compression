@@ -16,27 +16,10 @@ public class ImageManipulation {
 
         KMeansAlgorithm kMeansAlgorithm = new KMeansAlgorithm(dataPoints, properties);
 
-        boolean intermediateImage = false;
-        if (properties.containsKey("intermediate-images")){
-            intermediateImage = true;
-            int iterations = 0;
-            try {
-                iterations = Integer.parseInt(properties.get("intermediate-images"));
-                if (iterations <= 0){
-                    System.out.println("intermediate-images's value must be positive. No intermediate images will be output.");
-                    intermediateImage = false;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("intermediate-images's value must be an integer. No intermediate images will be output.");
-                intermediateImage = false;
-            }
-
-            if (intermediateImage){
-                kMeansAlgorithm.kmeansWithIntermediateImages(k, iterations, image);
-            }
+        if (properties.containsKey("intermediate-images") && properties.get("intermediate-images").equals("true")){
+            kMeansAlgorithm.kmeansWithIntermediateImages(k, image);
         }
-
-        if (!intermediateImage) {
+        else {
             kMeansAlgorithm.kmeans(k);
         }
 

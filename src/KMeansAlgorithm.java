@@ -77,7 +77,7 @@ public class KMeansAlgorithm {
         }
     }
 
-    public void kmeansWithIntermediateImages(int k, int iterations, BufferedImage image) {
+    public void kmeansWithIntermediateImages(int k, BufferedImage image) {
         initialCentroids(k);
         boolean finished = false;
         int counter = 0;
@@ -85,9 +85,7 @@ public class KMeansAlgorithm {
             assignDataPointsToCentroid();
             System.out.print("\t");
             counter++;
-            if (counter % iterations == 0) {
-                FilePathsAndImageIO.outputImage(ImageManipulation.modifyImageColors(image, this), "progress-images/iteration-" + counter);
-            }
+            FilePathsAndImageIO.outputImage(ImageManipulation.modifyImageColors(image, this), "progress-images/iteration-" + counter);
             finished = updatedCentroids();
             System.out.println();
         }
