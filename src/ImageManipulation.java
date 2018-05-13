@@ -16,38 +16,27 @@ public class ImageManipulation {
 
         KMeansAlgorithm kMeansAlgorithm = new KMeansAlgorithm(dataPoints, properties);
 
-        boolean progressImage = false;
-        if (properties.containsKey("progress-image")){
-            progressImage = true;
+        boolean intermediateImage = false;
+        if (properties.containsKey("intermediate-images")){
+            intermediateImage = true;
             int iterations = 0;
             try {
-                iterations = Integer.parseInt(properties.get("progress-image"));
+                iterations = Integer.parseInt(properties.get("intermediate-images"));
                 if (iterations <= 0){
-                    System.out.println("progress-image's value must be positive. No progress images will be output.");
-                    progressImage = false;
+                    System.out.println("intermediate-images's value must be positive. No intermediate images will be output.");
+                    intermediateImage = false;
                 }
             } catch (NumberFormatException e) {
-                System.out.println("progress-image's value must be an integer. No progress images will be output.");
-                progressImage = false;
+                System.out.println("intermediate-images's value must be an integer. No intermediate images will be output.");
+                intermediateImage = false;
             }
 
-            if (progressImage){
-                kMeansAlgorithm.initialCentroids(k);
-                boolean finished = false;
-                int counter = 0;
-                while (!finished){
-                    kMeansAlgorithm.assignDataPointsToCentroid();
-                    counter++;
-                    if (counter % iterations == 0) {
-                        FilePathsAndImageIO.outputImage(modifyImageColors(image, kMeansAlgorithm), "progress-images/iteration-" + counter);
-                    }
-                    finished = kMeansAlgorithm.updatedCentroids();
-                }
+            if (intermediateImage){
+                kMeansAlgorithm.kmeansWithIntermediateImages(k, iterations, image);
             }
-
         }
 
-        if (!progressImage) {
+        if (!intermediateImage) {
             kMeansAlgorithm.kmeans(k);
         }
 
@@ -81,14 +70,15 @@ public class ImageManipulation {
         return colors;
     }
 
-    private static BufferedImage modifyImageColors(BufferedImage image, KMeansAlgorithm kMeansAlgorithm){
+    protected static BufferedImage modifyImageColors(BufferedImage image, KMeansAlgorithm kMeansAlgorithm){
         int[] rgbData = image.getRGB(0,0, image.getWidth(), image.getHeight(),
                 null, 0,image.getWidth());
         for (int x = 0; x < image.getWidth(); x++){
             for (int y = 0; y < image.getHeight(); y++) {
-                int colorRed=(rgbData[(y*image.getWidth())+x] >> 16) & 0xFF;
-                int colorGreen=(rgbData[(y*image.getWidth())+x] >> 8) & 0xFF;
-                int colorBlue=(rgbData[(y*image.getWidth())+x]) & 0xFF;
+                int rgbValue = rgbData[(y*image.getWidth())+x];
+                int colorRed = (rgbValue >> 16) & 0xFF;
+                int colorGreen = (rgbValue >> 8) & 0xFF;
+                int colorBlue = (rgbValue) & 0xFF;
 
                 DataPoint dataPoint = new DataPoint(colorRed, colorGreen, colorBlue);
                 DataPoint closest = kMeansAlgorithm.getClosestCentroid(dataPoint).getCentre();

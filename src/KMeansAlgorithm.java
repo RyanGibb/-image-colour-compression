@@ -1,5 +1,6 @@
 
 import javax.xml.crypto.Data;
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -63,10 +64,32 @@ public class KMeansAlgorithm {
 
     public void kmeans(int k) {
         initialCentroids(k);
+        if (verbose) {
+            System.out.println("Number of data points assigned to a different centroid" +
+                    "\tCentroid centres coordinate change");
+        }
         boolean finished = false;
         while (!finished) {
             assignDataPointsToCentroid();
+            System.out.print("\t");
             finished = updateCentroids();
+            System.out.println();
+        }
+    }
+
+    public void kmeansWithIntermediateImages(int k, int iterations, BufferedImage image) {
+        initialCentroids(k);
+        boolean finished = false;
+        int counter = 0;
+        while (!finished) {
+            assignDataPointsToCentroid();
+            System.out.print("\t");
+            counter++;
+            if (counter % iterations == 0) {
+                FilePathsAndImageIO.outputImage(ImageManipulation.modifyImageColors(image, this), "progress-images/iteration-" + counter);
+            }
+            finished = updatedCentroids();
+            System.out.println();
         }
     }
 
@@ -163,7 +186,7 @@ public class KMeansAlgorithm {
             minCentroid.addDataPoint(dataPoint);
         }
         if (verbose) {
-            System.out.println("Number of data points assigned to a different centroid: " + numberOfDataPointsReassigned);
+            System.out.print(numberOfDataPointsReassigned);
         }
     }
 
@@ -239,7 +262,7 @@ public class KMeansAlgorithm {
                 totalCoordValueChange += Math.abs(newCentres[i].getCoords()[j] - oldCentres[i].getCoords()[j]);
             }
         }
-        System.out.println("Centroid centres coordinate change: " + totalCoordValueChange);
+        System.out.print(totalCoordValueChange);
         return totalCoordValueChange == 0;
     }
 
