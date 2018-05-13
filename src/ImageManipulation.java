@@ -1,25 +1,58 @@
-import KMeansClustering.Centroid;
-import KMeansClustering.DataPoint;
-import KMeansClustering.KMeansAlgorithm;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class to manipulate to calculate and compress and image to a number of colors
+ *  using the K Means Algorithm (KMeansAlgorithm)
+ */
 public class ImageManipulation {
 
-    public static void compressImageToKColors(String inputPath, String outputPath, int k){
-        BufferedImage image = FileIO.inputImage(inputPath);
+    public static void compressImageToKColors(String inputPath, String outputPath, int k, HashMap<String, String> properties){
+        BufferedImage image = FilePathsAndImageIO.inputImage(inputPath);
         List<DataPoint> dataPoints = getDataPoints(image);
 
-        KMeansAlgorithm kMeansAlgorithm = new KMeansAlgorithm(dataPoints);
-        kMeansAlgorithm.setVerbose(true);
+        KMeansAlgorithm kMeansAlgorithm = new KMeansAlgorithm(dataPoints, properties);
 
-        kMeansAlgorithm.kmeans(k);
+        boolean progressImage = false;
+        if (properties.containsKey("progress-image")){
+            progressImage = true;
+            int iterations = 0;
+            try {
+                iterations = Integer.parseInt(properties.get("progress image"));
+                if (iterations <= 0){
+                    System.out.println("progress-image's value must be positive. No progress images will be output.");
+                    progressImage = false;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("progress-image's value must be an integer. No progress images will be output.");
+                progressImage = false;
+            }
 
-        modifyImageColors(image, kMeansAlgorithm);
-        FileIO.outputImage(image, outputPath);
+            if (progressImage){
+                kMeansAlgorithm.initialCentroids(k);
+                boolean finished = false;
+                int counter = 0;
+                while (!finished){
+                    kMeansAlgorithm.assignDataPointsToCentroid();
+                    counter++;
+                    if (counter % iterations == 0) {
+                        FilePathsAndImageIO.outputImage(modifyImageColors(image, kMeansAlgorithm), "progress-images/iteration-" + counter);
+                    }
+                    finished = kMeansAlgorithm.updatedCentroids();
+                }
+            }
+
+        }
+
+        if (!progressImage) {
+            kMeansAlgorithm.kmeans(k);
+        }
+
+        image = modifyImageColors(image, kMeansAlgorithm);
+        FilePathsAndImageIO.outputImage(image, outputPath);
     }
 
     private static List<DataPoint> getDataPoints(BufferedImage image){

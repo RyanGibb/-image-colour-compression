@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class FileIO {
+/**
+ * Class containing IO methods
+ */
+public class FilePathsAndImageIO {
 
     //Inputs an image from a filePath
     protected static BufferedImage inputImage(String filePath) {

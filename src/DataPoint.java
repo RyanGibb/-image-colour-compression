@@ -1,4 +1,3 @@
-package KMeansClustering;
 
 public class DataPoint{
     private int[] coords;
