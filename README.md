@@ -1,5 +1,5 @@
 # image-colour-compression
-Uses a k-means clustering algorithm to compress the number of colours used in an image.
+Uses a [k-means clustering algorithm](https://en.wikipedia.org/wiki/K-means_clustering) to compress the number of colours used in an image.
 
 # TODO:
 Create a UI
