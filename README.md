@@ -10,8 +10,8 @@ Uses a [k-means clustering algorithm](https://en.wikipedia.org/wiki/K-means_clus
 Options:
 * -h, --help: gives info on usage and options\n
 * -i, --initialization METHOD: specifies centroid initialization METHOD in the k-means clustering algorithm, where the METHOD is one of:
-** "random coordinate"
-** "random data point"
+  * "random coordinate"
+  * "random data point"
 * -v, --verbose: makes the K Means Algorithm verbose, and output progress information.
 * -o, --intermediate-images: outputs an image every iteration of the k-means clustering algorithm.
 EXAMPLE: java CompressImage -i "random data point" -v --intermediate-images image-to-compress.jpg 8
