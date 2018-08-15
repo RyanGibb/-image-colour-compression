@@ -14,6 +14,7 @@ Options:
   * "random data point"
 * -v, --verbose: makes the K Means Algorithm verbose, and output progress information.
 * -o, --intermediate-images: outputs an image every iteration of the k-means clustering algorithm.
+
 EXAMPLE: java CompressImage -i "random data point" -v --intermediate-images image-to-compress.jpg 8
 
 # TODO
