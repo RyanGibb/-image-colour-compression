@@ -1,6 +1,8 @@
 # image-colour-compression
 Uses a [k-means clustering algorithm](https://en.wikipedia.org/wiki/K-means_clustering) to compress the number of colours used in an image.
 
+Takes an image and converts it to an array of 3d data points (dimension for red, green, and blue). K-means clustering is used to find representative data points called centroids, in this 'color space'. Once found, the data points (representing colours) are assigned to their nearest centroid. This 'compressed color space' image is then output.
+
 # Usage:
 
 1. Navigate to src directory
