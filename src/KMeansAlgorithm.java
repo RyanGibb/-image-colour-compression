@@ -61,14 +61,14 @@ public class KMeansAlgorithm {
 
     public void kmeans(int k) {
         initialCentroids(k);
-        if (verbose) {
-            System.out.println("Number of data points assigned to a different centroid" +
-                    "\tCentroid centres coordinate change");
-        }
         boolean finished = false;
         while (!finished) {
+            if (verbose) {
+                System.out.println("/r");
+                System.out.print("Data points reassigned: ");
+            }
             assignDataPointsToCentroid();
-            System.out.print("\t");
+            if (verbose) System.out.print("\tCentroid centres coordinate change: ");
             finished = updateCentroids();
             System.out.println();
         }
@@ -79,10 +79,15 @@ public class KMeansAlgorithm {
         boolean finished = false;
         int counter = 0;
         while (!finished) {
+            if (verbose) {
+                System.out.print('\r');
+                System.out.print("Data points reassigned: ");
+            }
             assignDataPointsToCentroid();
             System.out.print("\t");
             counter++;
             FilePathsAndImageIO.outputImage(ImageManipulation.modifyImageColors(image, this), "progress-images/iteration-" + counter);
+            if (verbose) System.out.print("\tCentroids moved: ");
             finished = updatedCentroids();
             System.out.println();
         }
