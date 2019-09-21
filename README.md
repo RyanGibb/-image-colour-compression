@@ -15,9 +15,59 @@ Options:
   * "random coordinate"
   * "random data point"
 * -v, --verbose: makes the K Means Algorithm verbose, and output progress information.
-* -o, --intermediate-images: outputs an image every iteration of the k-means clustering algorithm.
+* -o, --intermediate-images: outputs an image every iteration of the k-means clustering algorithm. (Requires a directory src/progress-images.)
 
 EXAMPLE: java CompressImage -i "random data point" -v --intermediate-images image-to-compress.jpg 8
+
+# Example
+
+Windows XP background.
+
+![Alt text](examples/xp.jpeg)
+
+### 16 colours
+
+Running:
+```
+java CompressImage -v ~/Pictures/xp.jpeg 16
+```
+Gives:
+```
+Input Path: /home/ryan/Pictures/xp.jpeg	K-Means: 16	Output Path: /home/ryan/Pictures/xp-output-16.jpg
+Properties:
+	verbose:	true
+Data points reassigned: 1158000		Centroids moved: 236
+Data points reassigned: 210829		Centroids moved: 85
+Data points reassigned: 112959		Centroids moved: 50
+Data points reassigned: 81901		Centroids moved: 41
+Data points reassigned: 76025		Centroids moved: 37
+Data points reassigned: 56395		Centroids moved: 33
+...
+```
+
+![Alt text](examples/xp-output-16.jpg)
+
+### 8 colours
+
+![Alt text](examples/xp-output-8.jpg)
+
+### 4 colours
+
+![Alt text](examples/xp-output-4.jpg)
+
+### 3 colours
+
+![Alt text](examples/xp-output-3.jpg)
+
+### 2 colours
+
+![Alt text](examples/xp-output-2.jpg)
+
+### 1 colour
+
+The average colour of the pixels in the image.
+
+![Alt text](examples/xp-output-1.jpg)
 
 # TODO
 
