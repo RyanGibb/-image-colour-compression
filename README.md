@@ -23,7 +23,7 @@ EXAMPLE: java CompressImage -i "random data point" -v --intermediate-images imag
 
 Windows XP background.
 
-![Alt text](examples/xp.jpeg)
+![xp.jpeg](examples/xp.jpeg)
 
 ### 16 colours
 
@@ -45,29 +45,29 @@ Data points reassigned: 56395		Centroids moved: 33
 ...
 ```
 
-![Alt text](examples/xp-output-16.jpg)
+![xp-output-16.jpg](examples/xp-output-16.jpg)
 
 ### 8 colours
 
-![Alt text](examples/xp-output-8.jpg)
+![xp-output-8.jpg](examples/xp-output-8.jpg)
 
 ### 4 colours
 
-![Alt text](examples/xp-output-4.jpg)
+![xp-output-4.jpg](examples/xp-output-4.jpg)
 
 ### 3 colours
 
-![Alt text](examples/xp-output-3.jpg)
+![xp-output-3.jpg](examples/xp-output-3.jpg)
 
 ### 2 colours
 
-![Alt text](examples/xp-output-2.jpg)
+![p-output-2.jpg](examples/xp-output-2.jpg)
 
 ### 1 colour
 
 The average colour of the pixels in the image.
 
-![Alt text](examples/xp-output-1.jpg)
+![xp-output-1.jpg](examples/xp-output-1.jpg)
 
 # TODO
 
